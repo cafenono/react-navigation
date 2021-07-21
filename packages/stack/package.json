@@ -1,7 +1,7 @@
 {
   "name": "@react-navigation/stack",
   "description": "Stack navigator component for iOS and Android with animated transitions and gestures",
-  "version": "5.14.5",
+  "version": "5.14.5-v1",
   "keywords": [
     "react-native-component",
     "react-component",
@@ -25,6 +25,7 @@
   "react-native": "src/index.tsx",
   "source": "src/index.tsx",
   "module": "lib/module/index.js",
+  "types": "lib/typescript/src/index.d.ts",
   "files": [
     "src",
     "lib",
@@ -72,7 +73,13 @@
     "output": "lib",
     "targets": [
       "commonjs",
-      "module"
+      "module",
+      [
+        "typescript",
+        {
+          "project": "tsconfig.build.json"
+        }
+      ]
     ]
   }
 }

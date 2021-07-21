@@ -1,0 +1,115 @@
+Arguments: 
+  /usr/local/bin/node /Users/julien/Development/react-navigation/.yarn/releases/yarn-1.18.0.js
+
+PATH: 
+  /Library/Frameworks/Python.framework/Versions/3.6/bin:/Users/senxation/miniconda3/bin:/opt/bin:/usr/local/sbin:/usr/local/heroku/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/git/bin:/Users/julien/Library/Python/2.7/bin:/Users/julien/Library/Android/sdk/emulator:/Users/julien/Library/Android/sdk/tools:/Users/julien/Library/Android/sdk/tools/bin:/Users/julien/Library/Android/sdk/platform-tools:/usr/local/bin:/Users/julien/Library/Android/sdk/platform-tools:/Users/julien/Library/Android/sdk/tools
+
+Yarn version: 
+  1.18.0
+
+Node version: 
+  14.17.0
+
+Platform: 
+  darwin x64
+
+Trace: 
+  SyntaxError: /Users/julien/Development/react-navigation/packages/stack/package.json: Unexpected string in JSON at position 1007
+      at JSON.parse (<anonymous>)
+      at /Users/julien/Development/react-navigation/.yarn/releases/yarn-1.18.0.js:1098:57
+      at Generator.next (<anonymous>)
+      at step (/Users/julien/Development/react-navigation/.yarn/releases/yarn-1.18.0.js:310:30)
+      at /Users/julien/Development/react-navigation/.yarn/releases/yarn-1.18.0.js:321:13
+
+npm manifest: 
+  {
+    "name": "@react-navigation/stack",
+    "description": "Stack navigator component for iOS and Android with animated transitions and gestures",
+    "version": "5.14.5-v1",
+    "keywords": [
+      "react-native-component",
+      "react-component",
+      "react-native",
+      "react-navigation",
+      "ios",
+      "android",
+      "stack"
+    ],
+    "license": "MIT",
+    "repository": {
+      "type": "git",
+      "url": "https://github.com/react-navigation/react-navigation.git",
+      "directory": "packages/stack"
+    },
+    "bugs": {
+      "url": "https://github.com/react-navigation/react-navigation/issues"
+    },
+    "homepage": "https://reactnavigation.org/docs/stack-navigator/",
+    "main": "lib/commonjs/index.js",
+    "react-native": "src/index.tsx",
+    "source": "src/index.tsx",
+    "module": "lib/module/index.js",
+    "types": "lib/typescript/src/index.d.ts",
+    "files": [
+      "src",
+      "lib",
+      "!**/__tests__"
+    ],
+    "sideEffects": false,
+    "publishConfig": {
+      "access": "public"
+    },
+    "scripts": {
+      "prepare": "bob build"
+      "clean": "del lib"
+    },
+    "dependencies": {
+      "color": "^3.1.3",
+      "react-native-iphone-x-helper": "^1.3.0"
+    },
+    "devDependencies": {
+      "@react-native-community/masked-view": "^0.1.10",
+      "@react-navigation/native": "^5.9.4",
+      "@testing-library/react-native": "^7.1.0",
+      "@types/color": "^3.0.1",
+      "@types/react": "^16.9.53",
+      "@types/react-native": "^0.63.30",
+      "del-cli": "^3.0.1",
+      "react": "~16.13.1",
+      "react-native": "~0.63.2",
+      "react-native-builder-bob": "^0.17.0",
+      "react-native-gesture-handler": "~1.7.0",
+      "react-native-safe-area-context": "3.1.4",
+      "react-native-screens": "~2.10.1",
+      "typescript": "^4.0.3"
+    },
+    "peerDependencies": {
+      "@react-native-community/masked-view": ">= 0.1.0",
+      "@react-navigation/native": "^5.0.5",
+      "react": "*",
+      "react-native": "*",
+      "react-native-gesture-handler": ">= 1.0.0",
+      "react-native-safe-area-context": ">= 0.6.0",
+      "react-native-screens": ">= 2.0.0-alpha.0 || >= 2.0.0-beta.0 || >= 2.0.0"
+    },
+    "react-native-builder-bob": {
+      "source": "src",
+      "output": "lib",
+      "targets": [
+        "commonjs",
+        "module",
+        [
+          "typescript",
+          {
+            "project": "tsconfig.build.json"
+          }
+        ]
+      ]
+    }
+  }
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile

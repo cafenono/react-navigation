@@ -418,14 +418,14 @@ export default class Card extends React.Component<Props> {
 
     if (gestureDirection === 'vertical') {
       return {
-        maxDeltaX: 15,
-        minOffsetY: 5,
+        maxDeltaX: 20,
+        minOffsetY: 10,
         hitSlop: { bottom: -layout.height + distance },
       };
     } else if (gestureDirection === 'vertical-inverted') {
       return {
-        maxDeltaX: 15,
-        minOffsetY: -5,
+        maxDeltaX: 20,
+        minOffsetY: -10,
         hitSlop: { top: -layout.height + distance },
       };
     } else {
@@ -434,13 +434,13 @@ export default class Card extends React.Component<Props> {
 
       if (invertedMultiplier === 1) {
         return {
-          minOffsetX: 5,
+          minOffsetX: 10,
           maxDeltaY: 20,
           hitSlop: { right: hitSlop },
         };
       } else {
         return {
-          minOffsetX: -5,
+          minOffsetX: -10,
           maxDeltaY: 20,
           hitSlop: { left: hitSlop },
         };

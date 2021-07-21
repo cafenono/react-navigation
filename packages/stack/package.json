@@ -1,7 +1,7 @@
 {
   "name": "@react-navigation/stack",
   "description": "Stack navigator component for iOS and Android with animated transitions and gestures",
-  "version": "5.14.5-v2",
+  "version": "5.14.5-v3",
   "keywords": [
     "react-native-component",
     "react-component",
@@ -36,7 +36,7 @@
     "access": "public"
   },
   "scripts": {
-    "prepare": "bob build",
+    "build": "bob build",
     "clean": "del lib"
   },
   "dependencies": {

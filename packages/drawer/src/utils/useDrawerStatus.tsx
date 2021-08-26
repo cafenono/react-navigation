@@ -1,5 +1,6 @@
 import * as React from 'react';
 
+import DrawerDirectionContext from './DrawerDirectionContext';
 import DrawerStatusContext from './DrawerStatusContext';
 
 /**
@@ -8,6 +9,7 @@ import DrawerStatusContext from './DrawerStatusContext';
  */
 export default function useDrawerStatus() {
   const drawerStatus = React.useContext(DrawerStatusContext);
+  const drawerDirection = React.useContext(DrawerDirectionContext);
 
   if (drawerStatus === undefined) {
     throw new Error(
@@ -15,5 +17,5 @@ export default function useDrawerStatus() {
     );
   }
 
-  return drawerStatus;
+  return { status: drawerStatus, direction: drawerDirection };
 }

@@ -28,7 +28,8 @@ export type DrawerNavigationConfig = {
    * Function that returns React element to render as the content of the drawer, for example, navigation items.
    * Defaults to `DrawerContent`.
    */
-  drawerContent?: (props: DrawerContentComponentProps) => React.ReactNode;
+  drawerContentRight?: (props: DrawerContentComponentProps) => React.ReactNode;
+  drawerContentLeft?: (props: DrawerContentComponentProps) => React.ReactNode;
   /**
    * Whether inactive screens should be detached from the view hierarchy to save memory.
    * Make sure to call `enableScreens` from `react-native-screens` to make it work.
@@ -287,10 +288,12 @@ export type DrawerProps = {
   hideStatusBarOnOpen: boolean;
   keyboardDismissMode: 'none' | 'on-drag';
   onClose: () => void;
-  onOpen: () => void;
+  onOpen: (direction: 'left' | 'right') => void;
   open: boolean;
+  actionDirection: 'left' | 'right' | undefined;
   overlayStyle?: StyleProp<ViewStyle>;
-  renderDrawerContent: () => React.ReactNode;
+  renderRightDrawerContent: () => React.ReactNode;
+  renderLeftDrawerContent: () => React.ReactNode;
   renderSceneContent: () => React.ReactNode;
   statusBarAnimation: 'slide' | 'none' | 'fade';
   swipeDistanceThreshold: number;

@@ -30,7 +30,6 @@ import type {
   DrawerNavigationProp,
   DrawerProps,
 } from '../types';
-import DrawerDirectionContext from '../utils/DrawerDirectionContext';
 import DrawerPositionContext from '../utils/DrawerPositionContext';
 import DrawerStatusContext from '../utils/DrawerStatusContext';
 import getDrawerStatusFromState from '../utils/getDrawerStatusFromState';
@@ -72,10 +71,7 @@ function DrawerViewBase({
   state,
   navigation,
   descriptors,
-  drawerContentRight = (props: DrawerContentComponentProps) => (
-    <DrawerContent {...props} />
-  ),
-  drawerContentLeft = (props: DrawerContentComponentProps) => (
+  drawerContent = (props: DrawerContentComponentProps) => (
     <DrawerContent {...props} />
   ),
   detachInactiveScreens = Platform.OS === 'web' ||
@@ -110,8 +106,6 @@ function DrawerViewBase({
   } = descriptors[focusedRouteKey].options;
 
   const [loaded, setLoaded] = React.useState([focusedRouteKey]);
-  const [directionStatus, setDirectionStatus] =
-    React.useState<'closed' | 'left' | 'right'>('closed');
 
   if (!loaded.includes(focusedRouteKey)) {
     setLoaded([...loaded, focusedRouteKey]);
@@ -123,39 +117,14 @@ function DrawerViewBase({
 
   const drawerStatus = getDrawerStatusFromState(state);
 
-  // action 으로 어느 방향을 여는지 체크
-  const entry = state.history.find((it) => it.type === 'drawer') as
-    | {
-        type: 'drawer';
-        status: 'open';
-        direction: 'left' | 'right' | undefined;
-      }
-    | undefined;
-  const actionDirection = entry?.direction;
-
-  React.useEffect(() => {
-    if (actionDirection !== undefined) {
-      setDirectionStatus(actionDirection);
-    }
-  }, [actionDirection]);
-
-  const handleDrawerOpen = React.useCallback(
-    (direction: 'left' | 'right') => {
-      setDirectionStatus(direction);
-      const action =
-        direction === 'left'
-          ? DrawerActions.openLeftDrawer()
-          : DrawerActions.openRightDrawer();
-      navigation.dispatch({
-        ...action,
-        target: state.key,
-      });
-    },
-    [navigation, state.key, actionDirection]
-  );
+  const handleDrawerOpen = React.useCallback(() => {
+    navigation.dispatch({
+      ...DrawerActions.openDrawer(),
+      target: state.key,
+    });
+  }, [navigation, state.key]);
 
   const handleDrawerClose = React.useCallback(() => {
-    setDirectionStatus('closed');
     navigation.dispatch({
       ...DrawerActions.closeDrawer(),
       target: state.key,
@@ -173,6 +142,7 @@ function DrawerViewBase({
       if (!navigation.isFocused()) {
         return false;
       }
+
       handleDrawerClose();
 
       return true;
@@ -205,22 +175,10 @@ function DrawerViewBase({
     };
   }, [drawerStatus, drawerType, handleDrawerClose, navigation]);
 
-  const renderRightDrawerContent = () => {
+  const renderDrawerContent = () => {
     return (
-      <DrawerPositionContext.Provider value="right">
-        {drawerContentRight({
-          state: state,
-          navigation: navigation,
-          descriptors: descriptors,
-        })}
-      </DrawerPositionContext.Provider>
-    );
-  };
-
-  const renderLeftDrawerContent = () => {
-    return (
-      <DrawerPositionContext.Provider value="left">
-        {drawerContentLeft({
+      <DrawerPositionContext.Provider value={drawerPosition}>
+        {drawerContent({
           state: state,
           navigation: navigation,
           descriptors: descriptors,
@@ -298,46 +256,42 @@ function DrawerViewBase({
 
   return (
     <DrawerStatusContext.Provider value={drawerStatus}>
-      <DrawerDirectionContext.Provider value={directionStatus}>
-        <Drawer
-          actionDirection={actionDirection}
-          open={drawerStatus !== 'closed'}
-          onOpen={handleDrawerOpen}
-          onClose={handleDrawerClose}
-          gestureHandlerProps={gestureHandlerProps}
-          swipeEnabled={swipeEnabled}
-          swipeEdgeWidth={swipeEdgeWidth}
-          swipeVelocityThreshold={500}
-          swipeDistanceThreshold={swipeMinDistance}
-          hideStatusBarOnOpen={drawerHideStatusBarOnOpen}
-          statusBarAnimation={drawerStatusBarAnimation}
-          keyboardDismissMode={keyboardDismissMode}
-          drawerType={drawerType}
-          drawerPosition={drawerPosition}
-          drawerStyle={[
-            {
-              width: getDefaultDrawerWidth(dimensions),
-              backgroundColor: colors.card,
-            },
-            drawerType === 'permanent' &&
-              (drawerPosition === 'left'
-                ? {
-                    borderRightColor: colors.border,
-                    borderRightWidth: StyleSheet.hairlineWidth,
-                  }
-                : {
-                    borderLeftColor: colors.border,
-                    borderLeftWidth: StyleSheet.hairlineWidth,
-                  }),
-            drawerStyle,
-          ]}
-          overlayStyle={{ backgroundColor: overlayColor }}
-          renderRightDrawerContent={renderRightDrawerContent}
-          renderLeftDrawerContent={renderLeftDrawerContent}
-          renderSceneContent={renderSceneContent}
-          dimensions={dimensions}
-        />
-      </DrawerDirectionContext.Provider>
+      <Drawer
+        open={drawerStatus !== 'closed'}
+        onOpen={handleDrawerOpen}
+        onClose={handleDrawerClose}
+        gestureHandlerProps={gestureHandlerProps}
+        swipeEnabled={swipeEnabled}
+        swipeEdgeWidth={swipeEdgeWidth}
+        swipeVelocityThreshold={500}
+        swipeDistanceThreshold={swipeMinDistance}
+        hideStatusBarOnOpen={drawerHideStatusBarOnOpen}
+        statusBarAnimation={drawerStatusBarAnimation}
+        keyboardDismissMode={keyboardDismissMode}
+        drawerType={drawerType}
+        drawerPosition={drawerPosition}
+        drawerStyle={[
+          {
+            width: getDefaultDrawerWidth(dimensions),
+            backgroundColor: colors.card,
+          },
+          drawerType === 'permanent' &&
+            (drawerPosition === 'left'
+              ? {
+                  borderRightColor: colors.border,
+                  borderRightWidth: StyleSheet.hairlineWidth,
+                }
+              : {
+                  borderLeftColor: colors.border,
+                  borderLeftWidth: StyleSheet.hairlineWidth,
+                }),
+          drawerStyle,
+        ]}
+        overlayStyle={{ backgroundColor: overlayColor }}
+        renderDrawerContent={renderDrawerContent}
+        renderSceneContent={renderSceneContent}
+        dimensions={dimensions}
+      />
     </DrawerStatusContext.Provider>
   );
 }

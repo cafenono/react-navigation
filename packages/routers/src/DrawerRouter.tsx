@@ -17,12 +17,7 @@ import type {
 export type DrawerActionType =
   | TabActionType
   | {
-      type:
-        | 'OPEN_LEFT_DRAWER'
-        | 'OPEN_RIGHT_DRAWER'
-        | 'OPEN_DRAWER'
-        | 'CLOSE_DRAWER'
-        | 'TOGGLE_DRAWER';
+      type: 'OPEN_DRAWER' | 'CLOSE_DRAWER' | 'TOGGLE_DRAWER';
       source?: string;
       target?: string;
     };
@@ -44,15 +39,12 @@ export type DrawerNavigationState<ParamList extends ParamListBase> = Omit<
    */
   history: (
     | { type: 'route'; key: string }
-    | { type: 'drawer'; status: 'open'; direction?: string }
+    | { type: 'drawer'; status: 'open' }
   )[];
 };
 
 export type DrawerActionHelpers<ParamList extends ParamListBase> =
   TabActionHelpers<ParamList> & {
-    openLeftDrawer(): void;
-    openRightDrawer(): void;
-
     /**
      * Open the drawer sidebar.
      */
@@ -71,12 +63,6 @@ export type DrawerActionHelpers<ParamList extends ParamListBase> =
 
 export const DrawerActions = {
   ...TabActions,
-  openLeftDrawer(): DrawerActionType {
-    return { type: 'OPEN_LEFT_DRAWER' };
-  },
-  openRightDrawer(): DrawerActionType {
-    return { type: 'OPEN_RIGHT_DRAWER' };
-  },
   openDrawer(): DrawerActionType {
     return { type: 'OPEN_DRAWER' };
   },
@@ -95,8 +81,7 @@ const isDrawerOpen = (
 ) => Boolean(state.history?.some((it) => it.type === 'drawer'));
 
 const openDrawer = (
-  state: DrawerNavigationState<ParamListBase>,
-  direction?: string
+  state: DrawerNavigationState<ParamListBase>
 ): DrawerNavigationState<ParamListBase> => {
   if (isDrawerOpen(state)) {
     return state;
@@ -104,10 +89,7 @@ const openDrawer = (
 
   return {
     ...state,
-    history: [
-      ...state.history,
-      { type: 'drawer', status: 'open', direction: direction },
-    ],
+    history: [...state.history, { type: 'drawer', status: 'open' }],
   };
 };
 
@@ -197,12 +179,6 @@ export default function DrawerRouter({
 
     getStateForAction(state, action, options) {
       switch (action.type) {
-        case 'OPEN_LEFT_DRAWER':
-          return openDrawer(state, 'left');
-
-        case 'OPEN_RIGHT_DRAWER':
-          return openDrawer(state, 'right');
-
         case 'OPEN_DRAWER':
           return openDrawer(state);
 

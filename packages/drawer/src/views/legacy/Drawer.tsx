@@ -308,7 +308,7 @@ export default class DrawerView extends React.Component<DrawerProps> {
         if (open !== this.props.open) {
           // If the mode changed, update state
           if (open) {
-            this.props.onOpen(this.props.drawerPosition);
+            this.props.onOpen();
           } else {
             this.props.onClose();
           }
@@ -489,7 +489,7 @@ export default class DrawerView extends React.Component<DrawerProps> {
       swipeEdgeWidth,
       drawerStyle,
       overlayStyle,
-      renderLeftDrawerContent,
+      renderDrawerContent,
       renderSceneContent,
       gestureHandlerProps,
     } = this.props;
@@ -624,7 +624,7 @@ export default class DrawerView extends React.Component<DrawerProps> {
                 drawerStyle as any,
               ]}
             >
-              {renderLeftDrawerContent()}
+              {renderDrawerContent()}
             </Animated.View>
           </Animated.View>
         </PanGestureHandler>
